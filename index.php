@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/main.css">
   </head>
@@ -29,15 +30,15 @@
       <div class="row">
 
 
-        <div class="col-xs-12 col-sm-4 col-md-4 form-group">
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="nom" class="<?php if(isset($erreur['nom'])) echo "has-error"; ?>">Nom :</label>
           <input type="text" class="form-control" id="nom" name="nom" value="<?php if(isset($nom)) echo $nom; ?>">
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-4 form-group">
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="prenom" class="<?php if(isset($erreur['prenom'])) echo "has-error"; ?>">Prénom :</label>
           <input type="text" class="form-control" id="prenom" name="prenom" value="<?php if(isset($prenom)) echo $prenom; ?>">
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-4 form-group">
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="email" class="<?php if(isset($erreur['email']) or isset($erreur['emailinvalide'])) echo "has-error"; ?>">Adresse mail :</label>
           <input type="mail" class="form-control" id="email" name="email" value="<?php if(isset($email)) echo $email; ?>">
         </div>

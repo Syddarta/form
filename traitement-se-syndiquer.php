@@ -43,7 +43,7 @@ if(isset($_POST['sesyndiquersubmit'])){
   $base = basename($file_name_fiche);
   $extension = substr($base, strlen($base)-4, strlen($base));
 
-  $allowed_extensions = array(".doc", "docx", ".pdf", ".jpg");
+  $allowed_extensions = array(".doc", "docx", ".pdf", ".jpg"); // ici les format acceptés, si format de 4 lettres, ne pas mettre de "." devant
 
   if(!empty($_FILES['fiche']['name']) && !in_array($extension, $allowed_extensions)){
     $erreur['formatfiche'] = "Mauvais format pour le champ fiche de paie";
@@ -81,26 +81,26 @@ if(isset($_POST['sesyndiquersubmit'])){
     $mail->CharSet = 'UTF-8';
     $mail->addAddress('imbertsebastiendev@gmail.com', 'CGT Suez Eau France');
     $mail->setFrom( $email, 'Candidature');
-    $mail->Subject = "CGT Suez Eau France - Demande de syndic";
+    $mail->Subject = "Un utilisateur souhaite se syndiquer";
     $mail->isHTML(true);
     $mail->Body = "Bonjour, vous avez reçu une demande d'un utilisateur souhaitant se syndiquer.<br>" . "<b>" . $nom . "</b>" . ' ' . "<b>" . $prenom . "</b><br>";
     $mail->Body .= "<b>" . $email . "</b>";
 
-    // ajout de la pièce jointe CV
+    // ajout de la pièce jointe fiche de paie
     $mail->addAttachment( $_FILES['fiche']['tmp_name'], $_FILES['fiche']['name'], 'base64', $_FILES['fiche']['type'] );
 
-    // ajout de la pièce jointe lettre de motivation
+    // ajout de la pièce jointe RIB
     $mail->addAttachment( $_FILES['rib']['tmp_name'], $_FILES['rib']['name'], 'base64', $_FILES['rib']['type'] );
 
     $mail->send();
 
-    // envoi
+    // envoi du mail chez l'utilisateur
     if($mail->send()){
       $mail2 = new PHPMailer();
       $mail2->CharSet = 'UTF-8';
-      $mail2->addAddress($email, 'Service Pro Securite');
-      $mail2->setFrom( 'iimbertsebastiendev@gmail.com', 'Service Pro Securite');
-      $mail2->Subject = "Service Pro Securite - Candidature";
+      $mail2->addAddress($email, 'CGT Suez Eau France');
+      $mail2->setFrom( 'imbertsebastiendev@gmail.com', 'CGT Suez Eau France'); // le mail devra être remplacer par le mail de l'admin de la région
+      $mail2->Subject = "CGT Suez Eau France - Nous avons bien reçu votre demande";
       $mail2->isHTML(true);
       $mail2->Body = "Ici le texte du mail que l'utilisateur reçoit";
 
@@ -110,7 +110,7 @@ if(isset($_POST['sesyndiquersubmit'])){
 
     $success = "Votre demande a bien été envoyée, vous allez recevoir sous peu un mail vous le confirmant.";
 
-
-
+    unset($_POST);
+    unset($_FILES);
   }
 }
