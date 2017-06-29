@@ -9,7 +9,23 @@
     <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
+
     <form class="container" action="" method="post" enctype="multipart/form-data">
+      <?php if(!empty($erreur)) : ?>
+        <?php echo "<div class='alert alert-danger'>" . "<p><i class='fa fa-exclamation-triangle' aria-hidden='true'></i> Votre candidature n'a pas pu être envoyée, car le formulaire contient l'erreur ou les erreurs suivantes :</p><ul>" ?>
+            <?php if(isset($erreur['vide'])) echo "<li>" . $erreur['vide'] . "</li>"; ?>
+            <?php if(isset($erreur['emailinvalide'])) echo "<li>" . $erreur['emailinvalide'] . "</li>"; ?>
+            <?php if(isset($erreur['formatcv'])) echo "<li>" . $erreur['formatcv'] . "</li>"; ?>
+            <?php if(isset($erreur['formatlettre'])) echo "<li>" . $erreur['formatlettre'] . "</li>"; ?>
+            <?php if(isset($warning)) echo "<li>" . $warning . "</li>"; ?>
+        <?php echo "</ul>" . "</div>"; ?>
+      <?php endif; ?>
+
+      <?php if(isset($success)) : ?>
+        <?php echo "<div class='alert alert-success'>" ?>
+          <?php if(isset($success)) echo $success; ?>
+        <?php echo "</div>"; ?>
+      <?php endif; ?>
       <div class="row">
 
 
