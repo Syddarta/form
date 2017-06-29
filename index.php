@@ -15,8 +15,8 @@
         <?php echo "<div class='alert alert-danger'>" . "<p><i class='fa fa-exclamation-triangle' aria-hidden='true'></i> Votre candidature n'a pas pu être envoyée, car le formulaire contient l'erreur ou les erreurs suivantes :</p><ul>" ?>
             <?php if(isset($erreur['vide'])) echo "<li>" . $erreur['vide'] . "</li>"; ?>
             <?php if(isset($erreur['emailinvalide'])) echo "<li>" . $erreur['emailinvalide'] . "</li>"; ?>
-            <?php if(isset($erreur['formatcv'])) echo "<li>" . $erreur['formatcv'] . "</li>"; ?>
-            <?php if(isset($erreur['formatlettre'])) echo "<li>" . $erreur['formatlettre'] . "</li>"; ?>
+            <?php if(isset($erreur['formatfiche'])) echo "<li>" . $erreur['formatfiche'] . "</li>"; ?>
+            <?php if(isset($erreur['formatrib'])) echo "<li>" . $erreur['formatrib'] . "</li>"; ?>
             <?php if(isset($warning)) echo "<li>" . $warning . "</li>"; ?>
         <?php echo "</ul>" . "</div>"; ?>
       <?php endif; ?>
@@ -44,13 +44,13 @@
 
 
         <div class="col-xs-12 col-sm-12 col-md-6 form-group">
-          <span class="fake-label <?php if(isset($erreur['cv']) or isset($erreur['formatcv'])) echo "has-error"; ?>">Veuillez joindre votre CV : (.pdf, .doc, .docx)</span>
-          <input type="file" name="cv" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} fichiers sélectionnés" multiple>
+          <span class="fake-label <?php if(isset($erreur['fiche']) or isset($erreur['formatfiche'])) echo "has-error"; ?>">Veuillez joindre une fiche de paie : (.pdf, .doc, .docx)</span>
+          <input type="file" name="fiche" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} fichiers sélectionnés" multiple>
           <label for="file-1"><i class="fa fa-upload" aria-hidden="true"></i> <span>Choisir un fichier</span></label>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 form-group">
-          <span class="fake-label <?php if(isset($erreur['lettre']) or isset($erreur['formatlettre'])) echo "has-error"; ?>">Veuillez joindre votre lettre de motivation : (.pdf, .doc, .docx)</span>
-          <input type="file" name="lettre" id="file-2" class="inputfile inputfile-1" data-multiple-caption="{count} fichiers sélectionnés" multiple>
+          <span class="fake-label <?php if(isset($erreur['rib']) or isset($erreur['formatrib'])) echo "has-error"; ?>">Veuillez joindre un RIB : (.pdf, .doc, .docx)</span>
+          <input type="file" name="rib" id="file-2" class="inputfile inputfile-1" data-multiple-caption="{count} fichiers sélectionnés" multiple>
           <label for="file-2"><i class="fa fa-upload" aria-hidden="true"></i> <span>Choisir un fichier</span></label>
         </div>
       </div>

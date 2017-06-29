@@ -5,7 +5,7 @@ if(isset($_POST['sesyndiquersubmit'])){
   $erreur = [];
 
 
-  if(empty($nom) or empty($prenom) or empty($email) or empty($_FILES['cv']['name']) or empty($_FILES['lettre']['name'])){
+  if(empty($nom) or empty($prenom) or empty($email) or empty($_FILES['fiche']['name']) or empty($_FILES['rib']['name'])){
     $erreur['vide'] = "Tous les champs n'ont pas été remplit";
   }
   if(empty($nom)){
@@ -22,52 +22,52 @@ if(isset($_POST['sesyndiquersubmit'])){
   }
 
 
-  if(empty($_FILES['cv']['name'])){
-    $erreur['cv'] = [];
+  if(empty($_FILES['fiche']['name'])){
+    $erreur['fiche'] = [];
   }
 
-  if(empty($_FILES['lettre']['name'])){
-    $erreur['lettre'] = [];
+  if(empty($_FILES['rib']['name'])){
+    $erreur['rib'] = [];
   }
 
 
-  // traitement du champ CV
-  if(!empty($_FILES['cv']['name'])){
+  // traitement du champ Fiche de paie
+  if(!empty($_FILES['fiche']['name'])){
 
-    $warning = "En cas d'erreur, par sécurité, les champs CV et lettre de motivation ont été vidés, veuillez les soumettre de nouveau";
+    $warning = "En cas d'erreur, par sécurité, les champs fiche de paie et RIB ont été vidés, veuillez les soumettre de nouveau";
 
   }
-  $file_name_cv = $_FILES['cv']['name'];
-  $temp_name_cv = $_FILES['cv']['tmp_name'];
-  $file_type_cv = $_FILES['cv']['type'];
-  $base = basename($file_name_cv);
+  $file_name_fiche = $_FILES['fiche']['name'];
+  $temp_name_fiche = $_FILES['fiche']['tmp_name'];
+  $file_type_fiche = $_FILES['fiche']['type'];
+  $base = basename($file_name_fiche);
   $extension = substr($base, strlen($base)-4, strlen($base));
 
-  $allowed_extensions = array(".doc", "docx", ".pdf");
+  $allowed_extensions = array(".doc", "docx", ".pdf", ".jpg");
 
-  if(!empty($_FILES['cv']['name']) && !in_array($extension, $allowed_extensions)){
-    $erreur['formatcv'] = "Mauvais format pour CV";
+  if(!empty($_FILES['fiche']['name']) && !in_array($extension, $allowed_extensions)){
+    $erreur['formatfiche'] = "Mauvais format pour le champ fiche de paie";
   }
 
 
 
 
-  // traitement du champ lettre de motivation
-  if(!empty($_FILES['lettre']['name'])){
+  // traitement du champ RIB
+  if(!empty($_FILES['rib']['name'])){
 
-    $warning = "En cas d'erreur, par sécurité, les champs CV et lettre de motivation ont été vidés, veuillez les soumettre de nouveau";
+    $warning = "En cas d'erreur, par sécurité, les champs fiche de paie et RIB ont été vidés, veuillez les soumettre de nouveau";
 
   }
-  $file_name_lettre = $_FILES['lettre']['name'];
-  $temp_name_lettre = $_FILES['lettre']['tmp_name'];
-  $file_type_lettre = $_FILES['lettre']['type'];
-  $base = basename($file_name_lettre);
+  $file_name_rib = $_FILES['rib']['name'];
+  $temp_name_rib = $_FILES['rib']['tmp_name'];
+  $file_type_rib = $_FILES['rib']['type'];
+  $base = basename($file_name_rib);
   $extension = substr($base, strlen($base)-4, strlen($base));
 
-  $allowed_extensions = array(".doc", "docx", ".pdf", ".png");
+  $allowed_extensions = array(".doc", "docx", ".pdf", ".jpg");
 
-  if(!empty($_FILES['lettre']['name']) && !in_array($extension, $allowed_extensions)){
-    $erreur['formatlettre'] = "Mauvais format pour la lettre de motivation";
+  if(!empty($_FILES['rib']['name']) && !in_array($extension, $allowed_extensions)){
+    $erreur['formatrib'] = "Mauvais format pour le champ RIB";
   }
 
 
@@ -79,17 +79,20 @@ if(isset($_POST['sesyndiquersubmit'])){
     require 'phpmailer/PHPMailerAutoload.php';
     $mail = new PHPMailer();
     $mail->CharSet = 'UTF-8';
-    $mail->addAddress('imbertsebastiendev@gmail.com', 'Service Pro Securite');
+    $mail->addAddress('imbertsebastiendev@gmail.com', 'CGT Suez Eau France');
     $mail->setFrom( $email, 'Candidature');
-    $mail->Subject = "Service Pro Securite - Candidature";
+    $mail->Subject = "CGT Suez Eau France - Demande de syndic";
     $mail->isHTML(true);
-    $mail->Body = "Bonjour, vous avez reçu une candidature de " . "<b>" . $civilite . "</b>". ' ' . "<b>" . $nom . "</b>" . ' ' . "<b>" . $prenom . "</b>.<br>";
+    $mail->Body = "Bonjour, vous avez reçu une demande d'un utilisateur souhaitant se syndiquer.<br>" . "<b>" . $nom . "</b>" . ' ' . "<b>" . $prenom . "</b><br>";
+    $mail->Body .= "<b>" . $email . "</b>";
 
     // ajout de la pièce jointe CV
-    $mail->addAttachment( $_FILES['cv']['tmp_name'], $_FILES['cv']['name'], 'base64', $_FILES['cv']['type'] );
+    $mail->addAttachment( $_FILES['fiche']['tmp_name'], $_FILES['fiche']['name'], 'base64', $_FILES['fiche']['type'] );
 
     // ajout de la pièce jointe lettre de motivation
-    $mail->addAttachment( $_FILES['lettre']['tmp_name'], $_FILES['lettre']['name'], 'base64', $_FILES['lettre']['type'] );
+    $mail->addAttachment( $_FILES['rib']['tmp_name'], $_FILES['rib']['name'], 'base64', $_FILES['rib']['type'] );
+
+    $mail->send();
 
     // envoi
     if($mail->send()){
@@ -99,13 +102,13 @@ if(isset($_POST['sesyndiquersubmit'])){
       $mail2->setFrom( 'iimbertsebastiendev@gmail.com', 'Service Pro Securite');
       $mail2->Subject = "Service Pro Securite - Candidature";
       $mail2->isHTML(true);
-      $mail2->Body = "<img src='http://sebastien-imbert.fr/img/cgt_suez_eau_france.jpg'><h1>Nous y répondrons bientot</h1>";
+      $mail2->Body = "Ici le texte du mail que l'utilisateur reçoit";
 
       $mail2->send();
     }
 
 
-    $success = "Votre candidature a bien été envoyée, vous allez recevoir sous peu un mail vous le confirmant.";
+    $success = "Votre demande a bien été envoyée, vous allez recevoir sous peu un mail vous le confirmant.";
 
 
 
